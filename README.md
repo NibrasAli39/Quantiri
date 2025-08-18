@@ -6,17 +6,23 @@ and build collaborative real-time dashboards with smart analytics insights.
 
 ---
 
+## 🚀 Live Demo
+
+[https://quantiri.vercel.app](https://quantiri.vercel.app)
+
+---
+
 ## 🚀 Tech Stack
 
-- **Framework:** [Next.js 15](https://nextjs.org/) with React 19  
-- **Language:** TypeScript 5  
-- **Styling:** Tailwind CSS 4 + shadcn/ui  
-- **State Management:** Zustand + TanStack Query  
-- **Charts:** Recharts  
-- **Database:** PostgreSQL (Neon) with Prisma ORM  
-- **Realtime:** Socket.io  
-- **AI:** Groq API integration  
-- **Hosting:** Vercel  
+- **Framework:** [Next.js 15](https://nextjs.org/) with React 19
+- **Language:** TypeScript 5
+- **Styling:** Tailwind CSS 4 + shadcn/ui
+- **State Management:** Zustand + TanStack Query
+- **Charts:** Recharts
+- **Database:** PostgreSQL (Neon) with Prisma ORM
+- **Realtime:** Socket.io
+- **AI:** Groq API integration
+- **Hosting:** Vercel
 
 ---
 
@@ -25,15 +31,19 @@ and build collaborative real-time dashboards with smart analytics insights.
 Follow these steps to set up the project locally:
 
 # 1. Clone the repository
+
 git clone https://github.com/YOUR_USERNAME/quantiri.git
 cd quantiri
 
 # 2. Install dependencies (using pnpm)
+
 pnpm install
 
 # 3. Database setup (Neon Postgres + Prisma)
-pnpm db:push      # Push schema to database
-pnpm db:studio    # Open Prisma Studio
+
+pnpm db:push # Push schema to database
+pnpm db:studio # Open Prisma Studio
 
 # 4. Run the development server
+
 pnpm dev
