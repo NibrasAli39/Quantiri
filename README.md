@@ -2,7 +2,8 @@
 
 Quantiri is a modern **SaaS subscription dashboard** with a built-in **AI data assistant**.  
 It allows users to upload CSV datasets, chat with their data in natural language,  
-and build collaborative real-time dashboards with smart analytics insights.
+and build collaborative real-time dashboards with smart analytics insights.The future
+version aims to include subscriptions and more premium features
 
 ---
 
