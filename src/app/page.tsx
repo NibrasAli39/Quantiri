@@ -11,8 +11,8 @@ export default function HomePage() {
           Quantiri
         </h1>
         <p className="mt-6 max-w-2xl text-lg sm:text-xl text-muted-foreground">
-          AI-powered SaaS analytics dashboard.
-          Upload your data, chat with it, and get insights instantly.
+          AI-powered SaaS analytics dashboard. Upload your data, chat with it,
+          and get insights instantly.
         </p>
         <div className="mt-8 flex flex-col sm:flex-row gap-4">
           <Button size="lg" asChild>
@@ -34,8 +34,8 @@ export default function HomePage() {
               <Brain className="h-10 w-10 mb-4 text-primary" />
               <h3 className="text-xl font-semibold">AI Chat with Data</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Upload CSVs or connect your DB — ask questions in plain English and
-                get instant answers.
+                Upload CSVs or connect your DB — ask questions in plain English
+                and get instant answers.
               </p>
             </CardContent>
           </Card>
@@ -45,7 +45,8 @@ export default function HomePage() {
               <Users className="h-10 w-10 mb-4 text-primary" />
               <h3 className="text-xl font-semibold">Real-time Dashboards</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Collaborative widgets update live with your team. Stay in sync, always.
+                Collaborative widgets update live with your team. Stay in sync,
+                always.
               </p>
             </CardContent>
           </Card>
@@ -55,7 +56,8 @@ export default function HomePage() {
               <BarChart3 className="h-10 w-10 mb-4 text-primary" />
               <h3 className="text-xl font-semibold">Smart Analytics</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Detect trends, anomalies, and opportunities — before they happen.
+                Detect trends, anomalies, and opportunities — before they
+                happen.
               </p>
             </CardContent>
           </Card>
@@ -64,7 +66,8 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="px-6 py-8 border-t text-center text-sm text-muted-foreground">
-        © {new Date().getFullYear()} Quantiri. Built with Next.js, Tailwind, and shadcn.
+        © {new Date().getFullYear()} Quantiri. Built with Next.js, Tailwind,
+        and shadcn.
       </footer>
     </div>
   );

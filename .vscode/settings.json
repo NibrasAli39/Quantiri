@@ -1,5 +1,6 @@
 {
   "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // ensures Prettier runs on save
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always"
   }

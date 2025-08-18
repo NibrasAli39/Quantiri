@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Quantiri – AI-Powered SaaS Dashboard",
-  description: "Quantiri helps you analyze data with AI. Upload, chat, and visualize instantly.",
+  description:
+    "Quantiri helps you analyze data with AI. Upload, chat, and visualize instantly.",
 };
 
 export default function RootLayout({
