@@ -1,0 +1,11 @@
+# Dependencies
+node_modules
+
+# Build outputs
+.next
+.out
+dist
+.turbo
+
+# Generated files (don’t lint auto-generated code)
+src/generated
