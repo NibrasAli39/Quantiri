@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { z } from "zod";
@@ -14,7 +14,7 @@ import { SignInSchema } from "@/lib/validations";
 
 type FormState = z.infer<typeof SignInSchema>;
 
-export default function SignInPage() {
+function SignInContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [form, setForm] = useState<FormState>({ email: "", password: "" });
@@ -162,5 +162,13 @@ export default function SignInPage() {
         </MotionCard>
       </motion.div>
     </motion.div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignInContent />
+    </Suspense>
   );
 }
