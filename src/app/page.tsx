@@ -1,8 +1,22 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Brain, Users, BarChart3 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const handleGetStarted = () => {
+    if (session) {
+      router.push("/dashboard");
+    } else {
+      router.push("/auth/signup");
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-muted/20">
       {/* Hero Section */}
@@ -15,7 +29,7 @@ export default function HomePage() {
           and get insights instantly.
         </p>
         <div className="mt-8 flex flex-col sm:flex-row gap-4">
-          <Button size="lg" asChild>
+          <Button size="lg" onClick={handleGetStarted} asChild>
             <a href="/dashboard">Get Started</a>
           </Button>
           <Button variant="outline" size="lg" asChild>
