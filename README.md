@@ -72,9 +72,9 @@ flowchart TD
     end
 
     subgraph External
-        DB[(Neon PostgreSQL)]
+        DB[Neon PostgreSQL]
         Email[Resend API]
-        AI[Groq API (planned)]
+        AI[Groq API planned]
     end
 
     UI --> API
