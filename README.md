@@ -58,7 +58,7 @@ The MVP includes **secure authentication with email verification**, laying the f
 
 ## 🗂 Project Architecture
 
-````mermaid
+```mermaid
 flowchart TD
     subgraph Client
         UI[Next.js 15 + Tailwind + shadcn/ui]
@@ -84,13 +84,24 @@ flowchart TD
     DBService --> DB
     API --> Email
     API --> AI
+```
 
 ## 🔑 Authentication Flow
 
-1. **Sign Up** → Credentials stored in DB (password hashed)
-2. **Email Verification** → Secure link sent via Resend
-3. **Verification Route** → `/auth/verify` validates token, updates `emailVerified`
-4. **Access Granted** → User is redirected to the dashboard
+```mermaid
+sequenceDiagram
+    participant User
+    participant App
+    participant Email
+    participant DB
+
+    User->>App: Sign Up with credentials
+    App->>DB: Store hashed password
+    App->>Email: Send verification link
+    User->>App: Click verification link
+    App->>DB: Update emailVerified
+    App->>User: Redirect to dashboard
+```
 
 ---
 
@@ -103,7 +114,7 @@ NEXTAUTH_SECRET=<secure_random_string>
 NEXTAUTH_URL=https://your-vercel-domain.vercel.app
 DATABASE_URL=postgresql://<user>:<pass>@<host>/<db>
 RESEND_API_KEY=<your_resend_api_key>
-````
+```
 
 ---
 
