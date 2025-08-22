@@ -1,22 +1,27 @@
+// src/app/dashboard/page.tsx
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/authOptions";
-import SignOutButton from "./signout-button";
+import CSVSection from "@/components/data-chat/csv-section";
+import ChatSection from "@/components/data-chat/chat-section";
 
 export default async function DashboardPage() {
+  // ✅ Protect route with NextAuth
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/auth/signin");
+  if (!session) {
+    redirect("/auth/signin");
+  }
 
   return (
-    <main className="min-h-screen bg-gray-50 p-6">
-      <div className="mx-auto max-w-4xl space-y-3">
-        <h1 className="text-3xl font-bold">
-          Welcome, {session.user?.name || session.user?.email}
-        </h1>
-        <p className="text-muted-foreground">
-          Your analytics and AI insights will appear here.
-        </p>
-        <SignOutButton />
+    <main className="flex min-h-screen flex-col gap-6 p-6">
+      <h1 className="text-2xl font-bold">Dashboard</h1>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* CSV Upload + Preview */}
+        <CSVSection />
+
+        {/* AI Chat */}
+        <ChatSection />
       </div>
     </main>
   );
