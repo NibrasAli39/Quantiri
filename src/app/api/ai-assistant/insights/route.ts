@@ -2,10 +2,17 @@ import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
 import { ParsedCsv, ChartInsightsResponse } from "@/types/ai";
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-
 export async function POST(req: Request) {
+  const apiKey = process.env.GROQ_API_KEY;
   try {
+    if (!process.env.GROQ_API_KEY) {
+      return NextResponse.json(
+        { error: "Server misconfigured: missing GROQ_API_KEY" },
+        { status: 500 },
+      );
+    }
+
+    const groq = new Groq({ apiKey });
     const body: { dataset: ParsedCsv; question?: string } = await req.json();
 
     if (!body?.dataset?.columns?.length) {

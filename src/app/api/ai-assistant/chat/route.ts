@@ -29,10 +29,6 @@ const bodySchema = z.object({
   temperature: z.number().optional(),
 });
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
-
 const DEFAULT_MODEL = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
 const DEFAULT_TEMPERATURE = Number(process.env.GROQ_TEMPERATURE ?? "0.0");
 const DEFAULT_MAX_OUTPUT_TOKENS = Number(
@@ -62,6 +58,7 @@ function buildDatasetSummary(
 }
 
 export async function POST(req: Request) {
+  const apiKey = process.env.GROQ_API_KEY;
   try {
     if (!process.env.GROQ_API_KEY) {
       return NextResponse.json(
@@ -70,6 +67,7 @@ export async function POST(req: Request) {
       );
     }
 
+    const groq = new Groq({ apiKey });
     const json = await req.json();
     const parsed = bodySchema.safeParse(json);
     if (!parsed.success) {
