@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/authOptions";
 import CSVSection from "@/components/data-chat/csv-section";
 import ChatSection from "@/components/data-chat/chat-section";
+import InsightsSection from "@/components/data-chat/insights-section";
 
 export default async function DashboardPage() {
   // ✅ Protect route with NextAuth
@@ -22,6 +23,9 @@ export default async function DashboardPage() {
 
         {/* AI Chat */}
         <ChatSection />
+      </div>
+      <div>
+        <InsightsSection />
       </div>
     </main>
   );

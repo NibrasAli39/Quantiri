@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import Groq from "groq-sdk";
 import type { ChatApiResponse, ChatRequestBody } from "@/types/ai";
 import { db } from "@/lib/db";
 
@@ -28,8 +29,10 @@ const bodySchema = z.object({
   temperature: z.number().optional(),
 });
 
-const GROQ_API_URL = process.env.GROQ_API_URL;
-const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
+
 const DEFAULT_MODEL = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
 const DEFAULT_TEMPERATURE = Number(process.env.GROQ_TEMPERATURE ?? "0.0");
 const DEFAULT_MAX_OUTPUT_TOKENS = Number(
@@ -53,16 +56,16 @@ function buildDatasetSummary(
       })
       .join(" | "),
   );
-  return `DATASET SUMMARY\nColumns: ${cols}\nPreview (first ${rowsPreview.length}) rows:\n${rowsPreview
-    .map((r, i) => `${i + 1}. ${r}`)
-    .join("\n")}\n\n`;
+  return `DATASET SUMMARY\nColumns: ${cols}\nPreview (first ${
+    rowsPreview.length
+  }) rows:\n${rowsPreview.map((r, i) => `${i + 1}. ${r}`).join("\n")}\n\n`;
 }
 
 export async function POST(req: Request) {
   try {
-    if (!GROQ_API_URL || !GROQ_API_KEY) {
+    if (!process.env.GROQ_API_KEY) {
       return NextResponse.json(
-        { error: "Server misconfigured: missing GROQ env." },
+        { error: "Server misconfigured: missing GROQ_API_KEY" },
         { status: 500 },
       );
     }
@@ -93,7 +96,6 @@ export async function POST(req: Request) {
     }
 
     const messagesWindow = body.messages.slice(-12);
-
     const datasetSummary = buildDatasetSummary(dataset);
 
     const model = body.model ?? DEFAULT_MODEL;
@@ -102,49 +104,25 @@ export async function POST(req: Request) {
         ? body.temperature
         : DEFAULT_TEMPERATURE;
 
-    // send OpenAI-style chat payload to GROQ endpoint
-    const payload = {
+    // Call Groq SDK
+    const completion = await groq.chat.completions.create({
       model,
       messages: [
         {
           role: "system",
-          content: `You are a concise data analyst. Provide short, actionable answers.\n\n${datasetSummary}`,
+          content: `You are Quantiri, a personal AI data analyst. Provide short, actionable answers.\n\n${datasetSummary}`,
         },
         ...messagesWindow.map((m) => ({
-          role: m.role === "user" ? "user" : "assistant",
+          role: m.role,
           content: m.content,
         })),
       ],
       temperature,
       max_tokens: DEFAULT_MAX_OUTPUT_TOKENS,
-    };
-
-    const resp = await fetch(GROQ_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${GROQ_API_KEY}`,
-      },
-      body: JSON.stringify(payload),
     });
 
-    if (!resp.ok) {
-      const text = await resp.text().catch(() => "");
-      return NextResponse.json(
-        { error: "Upstream model error", details: text },
-        { status: 502 },
-      );
-    }
-
-    const data = await resp.json().catch(() => null);
-
     const reply =
-      (data &&
-        (data.text ||
-          data.output ||
-          data.choices?.[0]?.text ||
-          data.choices?.[0]?.message?.content)) ??
-      String(data ?? "No reply");
+      completion.choices?.[0]?.message?.content ?? "No reply generated";
 
     const result: ChatApiResponse = { reply: String(reply) };
     return NextResponse.json(result);

@@ -1,7 +1,11 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import type { ParsedCsv, ChatRequestBody } from "@/types/ai";
+import type {
+  ParsedCsv,
+  ChatRequestBody,
+  ChartInsightsResponse,
+} from "@/types/ai";
 
 export function useParseCsvMutation() {
   return useMutation({
@@ -41,6 +45,24 @@ export function useChatMutation() {
       const data = await res.json();
       if (data?.error) throw new Error(String(data.error));
       return String(data.reply ?? "");
+    },
+  });
+}
+
+export function useFetchInsights() {
+  return useMutation({
+    mutationFn: async (dataset: ParsedCsv): Promise<ChartInsightsResponse> => {
+      const res = await fetch("/api/ai-assistant/insights", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dataset }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch insights");
+      }
+
+      return res.json();
     },
   });
 }

@@ -29,10 +29,24 @@ export type ChatRequestBody = {
   // optional override params
   model?: string | null;
   temperature?: number | null;
+  requestStructured?: boolean;
 };
 
 export type ChatApiResponse = {
   reply: string;
   // optional structured payload for future (charts, tables)
-  structured?: unknown;
+  structured?: ChartInsightsResponse;
+};
+
+export type AIChart = {
+  type: "bar" | "line" | "pie" | "scatter" | "area";
+  title: string;
+  xKey: string;
+  yKey: string;
+  data: Record<string, number>[];
+};
+
+export type ChartInsightsResponse = {
+  insights: string[];
+  charts: AIChart[];
 };

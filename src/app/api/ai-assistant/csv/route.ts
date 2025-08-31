@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import Papa, { ParseResult } from "papaparse";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions"; // adapt path if different
+import { authOptions } from "@/lib/authOptions";
 import { db } from "@/lib/db";
 import type { ParsedCsv } from "@/types/ai";
 import { Prisma } from "@prisma/client";

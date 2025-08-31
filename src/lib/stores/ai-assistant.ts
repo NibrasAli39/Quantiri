@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { ChatMessage, ParsedCsv } from "@/types/ai";
+import type { ChatMessage, ParsedCsv, ChartInsightsResponse } from "@/types/ai";
 
 type UIStatus = "idle" | "uploading" | "parsing" | "ready" | "thinking";
 
@@ -10,6 +10,7 @@ type State = {
   status: UIStatus;
   dataset: ParsedCsv | null;
   messages: ChatMessage[];
+  insights: ChartInsightsResponse | null;
 };
 
 type Actions = {
@@ -22,6 +23,7 @@ type Actions = {
   resetConversation: () => void;
   clearDataset: () => void;
   loadSampleDataset: () => void;
+  setInsights: (i: ChartInsightsResponse | null) => void;
 };
 
 function uid() {
@@ -36,6 +38,7 @@ export const useAIAssistantStore = create<State & Actions>()(
     (set) => ({
       status: "idle",
       dataset: null,
+      insights: null,
       messages: [
         {
           id: uid(),
@@ -49,6 +52,7 @@ export const useAIAssistantStore = create<State & Actions>()(
       setStatus: (s) => set(() => ({ status: s })),
       setDataset: (d) =>
         set(() => ({ dataset: d, status: d ? "ready" : "idle" })),
+      setInsights: (i) => set(() => ({ insights: i })),
 
       appendMessage: ({ role, content, id, createdAt }) => {
         const msg: ChatMessage = {
@@ -72,9 +76,11 @@ export const useAIAssistantStore = create<State & Actions>()(
             },
           ],
           status: "idle",
+          insights: null,
         })),
 
-      clearDataset: () => set(() => ({ dataset: null, status: "idle" })),
+      clearDataset: () =>
+        set(() => ({ dataset: null, status: "idle", insights: null })),
 
       loadSampleDataset: () =>
         set(() => ({
@@ -91,11 +97,16 @@ export const useAIAssistantStore = create<State & Actions>()(
             fileSize: 1024,
           },
           status: "ready",
+          insights: null,
         })),
     }),
     {
       name: "ai-assistant-ui-v1",
-      partialize: (s) => ({ messages: s.messages, dataset: s.dataset }),
+      partialize: (s) => ({
+        messages: s.messages,
+        dataset: s.dataset,
+        insights: s.insights,
+      }),
     },
   ),
 );
