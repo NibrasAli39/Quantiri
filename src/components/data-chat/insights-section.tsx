@@ -12,12 +12,10 @@ import {
 } from "@/components/ui/chart";
 import { Loader2 } from "lucide-react";
 import {
-  ResponsiveContainer,
   LineChart,
   Line,
   XAxis,
   YAxis,
-  Tooltip,
   Legend,
   BarChart,
   Bar,

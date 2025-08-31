@@ -85,11 +85,8 @@ Return ONLY the JSON object and nothing else.
 
     console.log(JSON.stringify(parsed), "This is parsed data");
     return NextResponse.json(parsed);
-  } catch (error: any) {
-    console.error("Insights API error:", error);
-    return NextResponse.json(
-      { error: "Failed to generate insights" },
-      { status: 500 },
-    );
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown server error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
